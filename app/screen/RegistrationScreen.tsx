@@ -11,7 +11,6 @@ export default function RegistrationScreen() {
 
   const handleSignUp = () => {
     if (username && email && password) {
-      // Here you can integrate any signup logic
       Alert.alert('Registration successful', `Welcome, ${username}!`);
     } else {
       Alert.alert('Registration failed', 'Please fill in all required fields');
