@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useRouter } from 'expo-router'; 
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter(); 
 
   const handleLogin = () => {
- 
-    if (username === 'admin' && password === 'password') {
-      Alert.alert('Login successful', `Welcome, ${username}!`);
+    // Default username and pass lang sa sir kay hina pa kayo mi sa db
+    if (username === '123' && password === '123') {
+      Alert.alert('Login successful', `Welcome!`);
+  
+      router.push('/screen/dash');
     } else {
       Alert.alert('Login failed', 'Invalid username or password');
     }
