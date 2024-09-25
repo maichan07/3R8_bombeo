@@ -28,28 +28,28 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#E3F2FD', // soft blue background
+        backgroundColor: '#E3F2FD', 
         padding: 20,
     },
     titleText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#1E88E5', // darker blue for the title
+        color: '#1E88E5', 
         marginBottom: 20,
     },
     subtitleText: {
         fontSize: 18,
-        color: '#1E88E5', // same blue as the title
+        color: '#1E88E5', 
         marginTop: 20,
     },
     link: {
         padding: 10,
-        backgroundColor: '#BBDEFB', // light blue background for links
+        backgroundColor: '#BBDEFB', 
         borderRadius: 5,
         marginTop: 10,
     },
     linkText: {
-        color: '#0D47A1', // dark blue for link text
+        color: '#0D47A1', 
         fontSize: 16,
         fontWeight: 'bold',
     },
