@@ -1,73 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+
+// Define the UserContext with the correct typing
+const UserContext = createContext<{
+  contextUsername: string;
+  setContextUsername: React.Dispatch<React.SetStateAction<string>>;
+}>({
+  contextUsername: '',
+  setContextUsername: () => {}, // Default function
+});
 
 export default function RegistrationScreen() {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [contextUsername, setContextUsername] = useState(''); // Local state for context
 
+  const router = useRouter();
 
   const handleSignUp = () => {
-    if (username && email && password) {
-      Alert.alert('Registration successful', `Welcome, ${username}!`);
+    if (password !== confirmPassword) {
+      Alert.alert('Registration failed', 'Passwords do not match');
+      return;
+    }
+
+    if (email && password && fullName && username && phoneNumber) {
+      // Update local context state
+      setContextUsername(username);
+
+      // Show success message with the username from local context
+      Alert.alert('Registration successful', `Welcome, ${contextUsername || username}!`);
+
+      // Navigate to the dashboard
+      router.push('/screen/dash');
     } else {
       Alert.alert('Registration failed', 'Please fill in all required fields');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+    <UserContext.Provider value={{ contextUsername, setContextUsername }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Sign Up</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#A0C4FF"
-        value={username}
-        onChangeText={setUsername}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Full Name"
+          value={fullName}
+          onChangeText={setFullName}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#A0C4FF"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#A0C4FF"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType="phone-pad"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Full Name (Optional)"
-        placeholderTextColor="#A0C4FF"
-        value={fullName}
-        onChangeText={setFullName}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Phone Number (Optional)"
-        placeholderTextColor="#A0C4FF"
-        keyboardType="phone-pad"
-        value={phone}
-        onChangeText={setPhone}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
 
-      <View style={styles.buttonContainer}>
-        <Button title="Sign Up" color="#4EA8DE" onPress={handleSignUp} />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
+
+        <Button title="Sign Up" onPress={handleSignUp} color="#1E88E5" />
       </View>
-    </View>
+    </UserContext.Provider>
   );
 }
 
@@ -75,30 +103,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E3F2FD', // Soft blue background
     paddingHorizontal: 20,
-    backgroundColor: '#E0F7FA',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#4EA8DE',
-    marginBottom: 20,
+    color: '#1E88E5', // Soft blue title text
+    marginBottom: 30,
     textAlign: 'center',
   },
   input: {
     height: 50,
-    borderColor: '#A0C4FF',
-    borderWidth: 2,
-    borderRadius: 10,
+    borderColor: '#BBDEFB', // Light blue border
+    borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 20,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    backgroundColor: '#FFFFFF',
-    color: '#4EA8DE',
-  },
-  buttonContainer: {
-    marginTop: 20,
-    borderRadius: 10,
-    overflow: 'hidden',
+    paddingHorizontal: 10,
+    backgroundColor: '#FFFFFF', // White input background
+    width: '100%',
   },
 });

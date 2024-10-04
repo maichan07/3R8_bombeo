@@ -1,7 +1,18 @@
+import React, { useEffect } from "react";
 import { Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
 
 const HomePage = () => {
+
+    useEffect(() => {
+        console.log('HomePage component mounted');
+        
+        // Cleanup function to log when the component unmounts
+        return () => {
+            console.log('HomePage component unmounted');
+        };
+    }, []);
+
     return (
         <View style={styles.container}>
             <Text style={styles.titleText}>
