@@ -1,20 +1,36 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router'; 
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Error message state
   const router = useRouter(); 
 
+  // Effect to handle login errors
+  useEffect(() => {
+    if (errorMessage) {
+      // Show an alert for wrong credentials
+      Alert.alert('Login Error', errorMessage);
+      
+      // Clean-up function to reset the error message when user tries again
+      return () => setErrorMessage('');
+    }
+  }, [errorMessage]);
+
   const handleLogin = () => {
-    // Default username and pass lang sa sir kay hina pa kayo mi sa db
     if (username === '123' && password === '123') {
       Alert.alert('Login successful', `Welcome!`);
-  
+
+      // Navigate to dashboard
       router.push('/screen/dash');
+      
+      // Clean up the error message (if there was one) after successful login
+      setErrorMessage('');
     } else {
-      Alert.alert('Login failed', 'Invalid username or password');
+      // Set the error message as a side effect for invalid credentials
+      setErrorMessage('Invalid username or password');
     }
   };
 
